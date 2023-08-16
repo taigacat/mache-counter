@@ -12,4 +12,6 @@ jobs:
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs:
+      - check
     uses: ./.github/workflows/deploy.yml
