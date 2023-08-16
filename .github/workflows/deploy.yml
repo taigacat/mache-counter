@@ -53,7 +53,7 @@ jobs:
       - name: Update manifest.json
         run: npx dot-json@1 dist/manifest.json version ${{ steps.daily-version.outputs.version }}
       - name: Zip dist
-        run: zip -r extension.zip dist/*
+        run: zip -rj extension.zip dist
       - name: Create release draft
         uses: softprops/action-gh-release@v1
         with:
