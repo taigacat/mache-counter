@@ -10,7 +10,6 @@
   "extends": [
     "plugin:import/recommended",
     "plugin:import/warnings",
-    "plugin:storybook/recommended",
     "prettier"
   ],
   "plugins": [
