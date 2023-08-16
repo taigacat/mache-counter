@@ -2,9 +2,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   check:
@@ -15,3 +12,4 @@ jobs:
     needs:
       - check
     uses: ./.github/workflows/deploy.yml
+    secrets: inherit
