@@ -46,7 +46,7 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - uses: fregante/daily-version-action@a1fc2b591c0bee1c12274b8dffaddea11c079082
+      - uses: fregante/daily-version-action@97c12cee22be211cc25d24308ca37e906e1522a1
         id: daily-version
       - if: steps.daily-version.outputs.created
         run: echo "version = ${{ steps.daily-version.outputs.version }}"
