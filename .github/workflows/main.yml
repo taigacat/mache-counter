@@ -6,10 +6,9 @@ on:
 jobs:
   check:
     uses: ./.github/workflows/check.yml
+    secrets: inherit
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs:
-      - check
+    needs: [ check ]
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
