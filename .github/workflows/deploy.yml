@@ -46,21 +46,14 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Zip dist
-        run: zip -r extension.zip dist
       - uses: fregante/daily-version-action@a1fc2b591c0bee1c12274b8dffaddea11c079082
         id: daily-version
       - if: steps.daily-version.outputs.created
         run: echo "version = ${{ steps.daily-version.outputs.version }}"
       - name: Update manifest.json
         run: npx dot-json@1 dist/manifest.json version ${{ steps.daily-version.outputs.version }}
-      - name: Submit
-        run: npx chrome-webstore-upload-cli@2 upload --source extension.zip --auto-publish
-        env:
-          EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
-          CLIENT_ID: ${{ secrets.GCP_CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.GCP_CLIENT_SECRET }}
-          REFRESH_TOKEN: ${{ secrets.GCP_REFRESH_TOKEN }}
+      - name: Zip dist
+        run: zip -r extension.zip dist
       - name: Create release draft
         uses: softprops/action-gh-release@v1
         with:
