@@ -3,6 +3,9 @@
   "description": "Calculating the number of gifts purchased in Mache.tv",
   "version": "0.1",
   "manifest_version": 3,
+  "icons": {
+    "128": "icon.png"
+  },
   "content_scripts": [
     {
       "matches": ["https://www.mache.tv/Room/live/*"],
