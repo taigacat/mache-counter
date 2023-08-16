@@ -1,0 +1,13 @@
+{
+  "name": "Mache Gift Counter",
+  "description": "Calculating the number of gifts purchased in Mache.tv",
+  "version": "0.1",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["https://www.mache.tv/Room/live/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ]
+}

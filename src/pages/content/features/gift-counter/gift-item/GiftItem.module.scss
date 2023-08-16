@@ -1,0 +1,19 @@
+.gift-item {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+
+  > div {
+    padding: 0 5px;
+    text-align: right;
+
+    &:first-child {
+      flex-grow: 1;
+      padding-right: 15px;
+    }
+
+    &:last-child {
+      width: 50px;
+    }
+  }
+}
