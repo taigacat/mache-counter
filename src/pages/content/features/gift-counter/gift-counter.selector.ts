@@ -1,5 +1,5 @@
-import {RootState} from '../../rootState.type';
 import {createSelector} from 'reselect';
+import {RootState} from '../../rootState.type';
 
 export const giftCounterSelector = (state: RootState) => state.gifts;
 

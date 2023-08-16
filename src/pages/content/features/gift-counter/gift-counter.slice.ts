@@ -1,5 +1,5 @@
-import {Gift} from '../../../../models/Gift';
 import {createSlice} from '@reduxjs/toolkit';
+import {Gift} from '../../../../models/Gift';
 
 type State = {
   gifts: Gift[]

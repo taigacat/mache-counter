@@ -4,8 +4,8 @@
   "description": "Calculating the number of gifts purchased in Mache.tv",
   "main": "main.js",
   "scripts": {
-    "lint": "eslint src",
-    "lint:fix": "eslint --fix src",
+    "lint": "eslint src/**/*.{ts,tsx,js,jsx}",
+    "lint:fix": "eslint --fix src/**/*.{ts,tsx,js,jsx}",
     "stylelint": "stylelint src/**/*.scss",
     "stylelint:fix": "stylelint --fix src/**/*.scss",
     "test": "jest --passWithNoTests",
