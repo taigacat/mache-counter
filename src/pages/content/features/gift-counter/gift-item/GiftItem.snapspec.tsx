@@ -1,5 +1,5 @@
-import {GiftItem} from './GiftItem';
 import {render} from '@testing-library/react';
+import {GiftItem} from './GiftItem';
 
 describe('GiftItem snapshot', () => {
   it('should match snapshot', () => {

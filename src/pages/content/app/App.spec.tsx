@@ -1,7 +1,7 @@
 import {render} from '@testing-library/react';
 import React from 'react';
-import {App} from './App';
 import {GiftObserver} from '../observer/gift/gift-observer';
+import {App} from './App';
 
 describe("App", () => {
 

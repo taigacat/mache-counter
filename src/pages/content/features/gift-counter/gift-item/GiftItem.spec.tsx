@@ -1,7 +1,7 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { GiftItem } from './GiftItem';
+import React from 'react';
 import { Gift } from '../../../../../models/Gift';
+import { GiftItem } from './GiftItem';
 
 describe("GiftItem", () => {
   let gift: Gift;

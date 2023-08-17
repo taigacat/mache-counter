@@ -1,8 +1,8 @@
-import React from 'react';
 import {render, screen} from '@testing-library/react';
-import {GiftTable} from './GiftTable';
+import React from 'react';
 import {Provider} from 'react-redux';
 import {store} from '../../../store';
+import {GiftTable} from './GiftTable';
 
 describe("GiftTable", () => {
   it('should be initialized with no gifts', () => {

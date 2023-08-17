@@ -1,7 +1,7 @@
-import {GiftTable} from './GiftTable';
 import {render} from '@testing-library/react';
-import {store} from '../../../store';
 import {Provider} from 'react-redux';
+import {store} from '../../../store';
+import {GiftTable} from './GiftTable';
 
 describe('GiftTable snapshot', () => {
   it('should match snapshot', () => {

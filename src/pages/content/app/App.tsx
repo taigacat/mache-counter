@@ -1,8 +1,8 @@
 import React from 'react';
+import {Provider} from 'react-redux';
 import {GiftTable} from '../features/gift-counter/gift-table/GiftTable';
 import {GiftObserver} from '../observer/gift/gift-observer';
 import {store} from '../store';
-import {Provider} from 'react-redux';
 
 
 export const App: React.FC = () => {

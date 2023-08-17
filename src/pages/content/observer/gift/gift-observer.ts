@@ -1,6 +1,6 @@
 import {Gift} from '../../../../models/Gift';
-import {store} from '../../store';
 import {update} from '../../features/gift-counter/gift-counter.slice';
+import {store} from '../../store';
 import {DomObserver} from '../dom-observer';
 
 export class GiftObserver extends DomObserver {
