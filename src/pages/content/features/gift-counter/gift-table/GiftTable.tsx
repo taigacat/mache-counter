@@ -1,6 +1,5 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../../rootState.type';
 import {giftSummerySelector} from '../gift-counter.selector';
 import {GiftItem} from '../gift-item/GiftItem';
 import styles from './GiftTable.module.scss';
