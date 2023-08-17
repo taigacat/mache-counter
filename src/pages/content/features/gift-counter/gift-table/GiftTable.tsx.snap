@@ -3,16 +3,24 @@
 exports[`GiftTable snapshot should match snapshot 1`] = `
 <div>
   <div
-    class="gift-table"
+    class="gift-box react-draggable"
+    style="transform: translate(10px,558px);"
   >
     <div
-      class="gift-item"
+      class="gift-header"
+    />
+    <div
+      class="gift-table"
     >
-      <div>
-        Test Gift 1
-      </div>
-      <div>
-        4
+      <div
+        class="gift-item"
+      >
+        <div>
+          Test Gift 1
+        </div>
+        <div>
+          4
+        </div>
       </div>
     </div>
   </div>
