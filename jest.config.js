@@ -29,6 +29,6 @@ module.exports = {
   ],
   coverageDirectory: './reports/coverage',
   reporters: ['default'],
-  coverageReporters: ['text', 'html', 'text-summary'],
+  coverageReporters: ['text', 'html', 'text-summary', 'lcov'],
   verbose: false,
 };
