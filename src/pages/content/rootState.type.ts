@@ -1,3 +1,3 @@
-import {store} from './app/store';
+import {store} from './store';
 
 export type RootState = ReturnType<typeof store.getState>

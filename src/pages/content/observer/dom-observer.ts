@@ -4,7 +4,6 @@ export abstract class DomObserver {
 
   targetSelector: string;
   mutationObserverInit?: MutationObserverInit;
-  dispatch = useDispatch();
 
   protected constructor({targetSelector, mutationObserverInit}: {
     targetSelector: string,
@@ -42,5 +41,4 @@ export abstract class DomObserver {
       ...this.mutationObserverInit
     });
   }
-
 }

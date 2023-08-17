@@ -12,21 +12,23 @@ module.exports = {
   moduleNameMapper: {
     '\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/__mocks__/fileMock.js',
-    '\\.(css|scss|less)$': '<rootDir>/../../node_modules/jest-css-modules',
+    '\\.(css|scss|less)$': '<rootDir>/node_modules/jest-css-modules',
     '^src/(.+)': '<rootDir>/src/$1',
   },
+  "setupFilesAfterEnv": [
+    "<rootDir>/jest.setup.ts"
+  ],
   snapshotResolver: '<rootDir>/jest-snapshot-resolver.js',
   collectCoverage: true,
   collectCoverageFrom: [
-    '**/*.{ts,tsx,js,jsx}',
+    'src/**/*.{ts,tsx,js,jsx}',
     '!**/node_modules/**',
     '!**/*.spec.{ts,tsx,js,jsx}',
     '!**/*.snapspec.{ts,tsx,js,jsx}',
-    '!**/*.stories.{ts,tsx,js,jsx}',
     '!**/assets/**',
   ],
-  coverageDirectory: '../../reports/common-site/coverage',
+  coverageDirectory: './reports/coverage',
   reporters: ['default'],
-  coverageReporters: ['text', 'html', 'text-summary'],
+  coverageReporters: ['text', 'html', 'text-summary', 'lcov'],
   verbose: false,
 };

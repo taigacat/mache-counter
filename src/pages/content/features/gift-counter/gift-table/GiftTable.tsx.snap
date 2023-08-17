@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GiftTable snapshot should match snapshot 1`] = `
+<div>
+  <div
+    class="gift-table"
+  >
+    <div
+      class="gift-item"
+    >
+      <div>
+        Test Gift 1
+      </div>
+      <div>
+        4
+      </div>
+    </div>
+  </div>
+</div>
+`;
