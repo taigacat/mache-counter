@@ -1,4 +1,7 @@
-## マシェバラギフトカウンター
+[![check](https://github.com/taigacat/mache-counter/actions/workflows/check.yml/badge.svg)](https://github.com/taigacat/mache-counter/actions/workflows/check.yml)
+[![codecov](https://codecov.io/gh/taigacat/mache-counter/graph/badge.svg?token=752JC47UWK)](https://codecov.io/gh/taigacat/mache-counter)
+
+# マシェバラギフトカウンター
 
 Chrome 拡張機能「マシェバラギフトカウンター」は、マシェバラのギフトをカウントする拡張機能です。
 
