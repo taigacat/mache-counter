@@ -1,6 +1,7 @@
 .gift-item {
   display: flex;
   width: 100%;
+  cursor: default;
   border-bottom: 1px solid lightgray;
 
   > div {
@@ -15,5 +16,9 @@
     &:last-child {
       width: 50px;
     }
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 }
