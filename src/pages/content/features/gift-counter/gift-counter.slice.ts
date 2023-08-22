@@ -19,7 +19,12 @@ const giftCounterSlice = createSlice({
      * @param action action with gifts to add
      */
     add(state, action) {
-      state.gifts = (action.payload as Gift[]).reduce((prev: { [name: string]: Gift }, gift: Gift) => {
+      const payload = action.payload as Gift[];
+      if (!payload || payload.length === 0) {
+        return;
+      }
+
+      state.gifts = payload.reduce((prev: { [name: string]: Gift }, gift: Gift) => {
         const current_gift = prev[gift.name];
         return {
           ...prev,
@@ -37,7 +42,12 @@ const giftCounterSlice = createSlice({
      * @deprecated use add instead
      */
     update(state, action) {
-      state.gifts = (action.payload as Gift[]).reduce((prev: { [name: string]: Gift }, gift: Gift) => {
+      const payload = action.payload as Gift[];
+      if (!payload || payload.length === 0) {
+        return;
+      }
+
+      state.gifts = payload.reduce((prev: { [name: string]: Gift }, gift: Gift) => {
         const current_gift = prev[gift.name];
         return {
           ...prev,
