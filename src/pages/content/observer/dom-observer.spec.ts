@@ -1,9 +1,11 @@
-import {DomObserver} from './dom-observer';
+import { DomObserver } from './dom-observer';
 
 class DomObserverInstance extends DomObserver {
-
   constructor() {
-    super({targetSelector: '.target', mutationObserverInit: {childList: true}});
+    super({
+      targetSelector: '.target',
+      mutationObserverInit: { childList: true },
+    });
   }
 
   onChange(element: HTMLElement) {
@@ -24,7 +26,7 @@ describe('DomObserver', () => {
 
   beforeEach(() => {
     domObserver = new DomObserverInstance();
-  })
+  });
 
   it('should be defined', () => {
     // Assert
@@ -34,8 +36,7 @@ describe('DomObserver', () => {
   it('should be called startObserve', async () => {
     // Arrange
     const spy = jest.spyOn(domObserver, 'startObserve');
-    spy.mockImplementation(async () => {
-    });
+    spy.mockImplementation(async () => {});
 
     // Act
     await domObserver.start();
@@ -84,7 +85,6 @@ describe('DomObserver', () => {
     expect(target.classList.contains('target')).toBeTruthy();
   });
 
-
   it('should be timeout when the target is not displayed in 10000ms', async () => {
     // Arrange
     document.body.innerHTML = `
@@ -116,7 +116,9 @@ describe('DomObserver', () => {
     // Assert
     expect(onChangeSpy).toBeCalledWith(document.querySelector('.target'));
     expect(onAddSpy).toBeCalledWith(
-      expect.arrayContaining(Array.from(document.querySelectorAll('.list-item')))
+      expect.arrayContaining(
+        Array.from(document.querySelectorAll('.list-item')),
+      ),
     );
   });
 
@@ -139,7 +141,7 @@ describe('DomObserver', () => {
 
     // Act
     document.querySelector('.target')!.appendChild(appendElement);
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Assert
     expect(onChangeSpy).toBeCalledWith(document.querySelector('.target'));
@@ -163,8 +165,10 @@ describe('DomObserver', () => {
     const onRemoveSpy = jest.spyOn(domObserver, 'onRemove');
 
     // Act
-    document.querySelector('.target')!.removeChild(document.querySelectorAll('.list-item')![0]);
-    await new Promise(resolve => setTimeout(resolve, 100));
+    document
+      .querySelector('.target')!
+      .removeChild(document.querySelectorAll('.list-item')![0]);
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Assert
     expect(onChangeSpy).toBeCalledWith(document.querySelector('.target'));

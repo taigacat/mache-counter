@@ -1,13 +1,13 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {Gift} from '../../../../models/Gift';
+import { createSlice } from '@reduxjs/toolkit';
+import { Gift } from '../../../../models/Gift';
 
 type State = {
-  gifts: {[key: string]: Gift}
-}
+  gifts: { [key: string]: Gift };
+};
 
 const initialState: State = {
-  gifts: {}
-}
+  gifts: {},
+};
 
 const giftCounterSlice = createSlice({
   name: 'gifts',
@@ -24,16 +24,21 @@ const giftCounterSlice = createSlice({
         return;
       }
 
-      state.gifts = payload.reduce((prev: { [name: string]: Gift }, gift: Gift) => {
-        const current_gift = prev[gift.name];
-        return {
-          ...prev,
-          [gift.name]: {
-            ...gift,
-            count: current_gift ? current_gift.count + gift.count : gift.count,
-          }
-        };
-      }, state.gifts);
+      state.gifts = payload.reduce(
+        (prev: { [name: string]: Gift }, gift: Gift) => {
+          const current_gift = prev[gift.name];
+          return {
+            ...prev,
+            [gift.name]: {
+              ...gift,
+              count: current_gift
+                ? current_gift.count + gift.count
+                : gift.count,
+            },
+          };
+        },
+        state.gifts,
+      );
     },
     /**
      * Update gifts in the state
@@ -43,19 +48,24 @@ const giftCounterSlice = createSlice({
      */
     update(state, action) {
       const payload = (action.payload || []) as Gift[];
-      state.gifts = payload.reduce((prev: { [name: string]: Gift }, gift: Gift) => {
-        const current_gift = prev[gift.name];
-        return {
-          ...prev,
-          [gift.name]: {
-            ...gift,
-            count: current_gift ? current_gift.count + gift.count : gift.count,
-          }
-        }
-      }, {});
+      state.gifts = payload.reduce(
+        (prev: { [name: string]: Gift }, gift: Gift) => {
+          const current_gift = prev[gift.name];
+          return {
+            ...prev,
+            [gift.name]: {
+              ...gift,
+              count: current_gift
+                ? current_gift.count + gift.count
+                : gift.count,
+            },
+          };
+        },
+        {},
+      );
     },
   },
-})
+});
 
 export const giftAction = giftCounterSlice.actions;
 
