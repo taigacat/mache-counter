@@ -17,27 +17,27 @@ describe('GiftObserver', () => {
     // Arrange
     const spy = jest.spyOn(MutationObserver.prototype, 'observe');
     document.body.innerHTML = `
-        <div class="gifting_list"></div>
+        <div class="gLogs"></div>
     `;
 
     // Act
-    giftObserver.start();
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await giftObserver.start();
 
     // Assert
     expect(spy).toBeCalledWith(
       expect.any(HTMLElement),
       {
         childList: true,
+        attributes: false,
       }
     );
   });
 
-  it('should dispatch update action when the target is changed', async () => {
+  it('should dispatch add action when the target is changed', async () => {
     // Arrange
     const dispatchSpy = jest.spyOn(store, 'dispatch');
     document.body.innerHTML = `
-        <div class="gifting_list">
+        <div class="gLogs">
             <div class="list-item">
                 <div class="count">gift1 × 1</div>
             </div>
@@ -51,8 +51,7 @@ describe('GiftObserver', () => {
     `;
 
     // Act
-    giftObserver.start();
-    await new Promise(resolve => setTimeout(resolve, 100));
+    giftObserver.onAdd(Array.from(document.querySelectorAll('.list-item')));
 
     // Assert
     expect(dispatchSpy).toBeCalledWith({
@@ -61,7 +60,40 @@ describe('GiftObserver', () => {
         {name: 'gift2', count: 2},
         {name: 'gift1', count: 3},
       ],
-      type: 'gifts/update',
+      type: 'gifts/add',
+    });
+    const elements = document.querySelectorAll('.list-item');
+    expect(elements.length).toBe(3);
+    expect(elements[0].getAttribute('data-loaded')).toBe('true');
+    expect(elements[1].getAttribute('data-loaded')).toBe('true');
+    expect(elements[2].getAttribute('data-loaded')).toBe('true');
+  });
+
+  it('should not count double when the target is changed', () => {
+    // Arrange
+    document.body.innerHTML = `
+        <div class="gLogs">
+            <div class="list-item">
+                <div class="count">gift1 × 1</div>
+            </div>
+            <div class="list-item">
+                <div class="count">gift2 × 2</div>
+            </div>
+            <div class="list-item">
+                <div class="count">gift1 × 3</div>
+            </div>
+        </div>
+    `;
+    giftObserver.onAdd(Array.from(document.querySelectorAll('.list-item')));
+    const dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    // Act
+    giftObserver.onAdd(Array.from(document.querySelectorAll('.list-item')));
+
+    // Assert
+    expect(dispatchSpy).toBeCalledWith({
+      payload: [],
+      type: 'gifts/add',
     });
   });
 
@@ -69,19 +101,18 @@ describe('GiftObserver', () => {
     // Arrange
     const dispatchSpy = jest.spyOn(store, 'dispatch');
     document.body.innerHTML = `
-        <div class="gifting_list">
+        <div class="gLogs">
             <div class="list-item dummy" />
         </div>
     `;
 
     // Act
-    giftObserver.start();
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await giftObserver.start();
 
     // Assert
     expect(dispatchSpy).toBeCalledWith({
       payload: [],
-      type: 'gifts/update',
+      type: 'gifts/add',
     });
   });
 
@@ -90,7 +121,7 @@ describe('GiftObserver', () => {
     // Arrange
     const dispatchSpy = jest.spyOn(store, 'dispatch');
     document.body.innerHTML = `
-        <div class="gifting_list">
+        <div class="gLogs">
             <div class="list-item">
                 <div class="count">
                     <span/>
@@ -100,13 +131,12 @@ describe('GiftObserver', () => {
     `;
 
     // Act
-    giftObserver.start();
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await giftObserver.start();
 
     // Assert
     expect(dispatchSpy).toBeCalledWith({
       payload: [],
-      type: 'gifts/update',
+      type: 'gifts/add',
     });
   });
 
@@ -154,4 +184,58 @@ describe('GiftObserver', () => {
     expect(result).toBeNull();
   });
 
+  it('should not be thrown error when the count is not number', () => {
+    // Arrange
+    const text = 'gift1 × a';
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should not be thrown error when the text is empty', () => {
+    // Arrange
+    const text = '';
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should not be thrown error when the text is "×"', () => {
+    // Arrange
+    const text = '×';
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should not be thrown error when the text is undefined', () => {
+    // Arrange
+    const text = undefined;
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should not be thrown error when the text is null', () => {
+    // Arrange
+    const text = null;
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
 });

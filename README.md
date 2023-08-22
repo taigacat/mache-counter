@@ -11,7 +11,7 @@ Chrome 拡張機能「マシェバラギフトカウンター」は、マシェ�
 
 ## 利用方法
 
-* [Chrome ストア](https://chrome.google.com/webstore/detail/mache-gift-counter/kgajfgfhobfpdkmjbpjblmcgcphbclkd?hl=ja) でインストールする
+* ~~Chrome ストアでインストールする~~ (限定公開中のため非公開)
 * マシェバラの配信ページを開く
 
 ## 開発者向け情報
