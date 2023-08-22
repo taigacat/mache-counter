@@ -31,12 +31,14 @@ describe('DomObserver', () => {
     expect(domObserver).toBeDefined();
   });
 
-  it('should be called startObserve', () => {
+  it('should be called startObserve', async () => {
     // Arrange
     const spy = jest.spyOn(domObserver, 'startObserve');
+    spy.mockImplementation(async () => {
+    });
 
     // Act
-    domObserver.start();
+    await domObserver.start();
 
     // Assert
     expect(spy).toBeCalled();
@@ -81,6 +83,20 @@ describe('DomObserver', () => {
     expect(target).toBeDefined();
     expect(target.classList.contains('target')).toBeTruthy();
   });
+
+
+  it('should be timeout when the target is not displayed in 10000ms', async () => {
+    // Arrange
+    document.body.innerHTML = `
+       <div class="no_target"></div>
+    `;
+
+    // Act
+    const promise = domObserver.waitTargetDisplayed();
+
+    // Assert
+    await expect(promise).rejects.toMatch('Timeout');
+  }, 15000);
 
   it('should be called onChange() / onAdd() when startObserve() is called', async () => {
     // Arrange

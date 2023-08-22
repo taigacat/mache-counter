@@ -33,7 +33,7 @@ export class GiftObserver extends DomObserver {
         if (!nameAndCount) {
           return null;
         }
-        return this.splitGiftText(nameAndCount.textContent ?? '');
+        return this.splitGiftText(nameAndCount.textContent);
       })
       .filter(item => item !== null) as Gift[];
 
@@ -44,8 +44,12 @@ export class GiftObserver extends DomObserver {
    * Split gift text into name and count.
    * @param text gift text to split
    */
-  splitGiftText(text: string): { name: string, count: number } | null {
-    const name = text.split('×')[0]?.trim() ?? '';
+  splitGiftText(text: string | undefined | null): { name: string, count: number } | null {
+    if (!text) {
+      return null;
+    }
+
+    const name = text.split('×')[0].trim();
     const count = parseInt(text.split('×')[1]?.trim() ?? '0');
     if (name && count) {
       return {name, count};

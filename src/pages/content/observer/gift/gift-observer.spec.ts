@@ -21,8 +21,7 @@ describe('GiftObserver', () => {
     `;
 
     // Act
-    giftObserver.start();
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await giftObserver.start();
 
     // Assert
     expect(spy).toBeCalledWith(
@@ -108,8 +107,7 @@ describe('GiftObserver', () => {
     `;
 
     // Act
-    giftObserver.start();
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await giftObserver.start();
 
     // Assert
     expect(dispatchSpy).toBeCalledWith({
@@ -133,8 +131,7 @@ describe('GiftObserver', () => {
     `;
 
     // Act
-    giftObserver.start();
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await giftObserver.start();
 
     // Assert
     expect(dispatchSpy).toBeCalledWith({
@@ -187,4 +184,58 @@ describe('GiftObserver', () => {
     expect(result).toBeNull();
   });
 
+  it('should not be thrown error when the count is not number', () => {
+    // Arrange
+    const text = 'gift1 × a';
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should not be thrown error when the text is empty', () => {
+    // Arrange
+    const text = '';
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should not be thrown error when the text is "×"', () => {
+    // Arrange
+    const text = '×';
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should not be thrown error when the text is undefined', () => {
+    // Arrange
+    const text = undefined;
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should not be thrown error when the text is null', () => {
+    // Arrange
+    const text = null;
+
+    // Act
+    const result = giftObserver.splitGiftText(text);
+
+    // Assert
+    expect(result).toBeNull();
+  });
 });

@@ -1,5 +1,3 @@
-import {useDispatch} from 'react-redux';
-
 export abstract class DomObserver {
 
   targetSelector: string;
@@ -13,10 +11,8 @@ export abstract class DomObserver {
     this.mutationObserverInit = mutationObserverInit;
   }
 
-  public start() {
-    this.startObserve().then(_ => {
-      return;
-    });
+  async start() {
+    await this.startObserve();
   }
 
   /**
@@ -49,6 +45,14 @@ export abstract class DomObserver {
           resolve(target as HTMLElement);
         }
       }, 100);
+
+      setTimeout(() => {
+        try {
+          clearInterval(intervalId);
+        } catch (ignored) {
+        }
+        reject('Timeout');
+      }, 10000);
     });
   }
 
@@ -65,7 +69,7 @@ export abstract class DomObserver {
     const target = await this.waitTargetDisplayed();
     this.onChange(target);
     this.onAdd(Array.from(target.children) as HTMLElement[]);
-    observer?.observe(target, {
+    observer.observe(target, {
       ...this.mutationObserverInit
     });
   }
