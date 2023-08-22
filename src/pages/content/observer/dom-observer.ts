@@ -19,7 +19,26 @@ export abstract class DomObserver {
     });
   }
 
-  abstract onChange(element: HTMLElement): void;
+  /**
+   * Called when the target is changed.
+   * @param element
+   */
+  onChange(element: HTMLElement): void {
+  };
+
+  /**
+   * Called when the target is added.
+   * @param elements
+   */
+  onAdd(elements: HTMLElement[]): void {
+  };
+
+  /**
+   * Called when the target is removed.
+   * @param elements
+   */
+  onRemove(elements: HTMLElement[]): void {
+  };
 
   async waitTargetDisplayed(): Promise<HTMLElement> {
     return new Promise((resolve, reject) => {
@@ -36,9 +55,16 @@ export abstract class DomObserver {
   async startObserve() {
     const observer = new MutationObserver((mutations) => {
       this.onChange(mutations[mutations.length - 1].target as HTMLElement);
+      this.onAdd(
+        mutations.flatMap(mutation => Array.from(mutation.addedNodes)) as HTMLElement[]
+      );
+      this.onRemove(
+        mutations.flatMap(mutation => Array.from(mutation.removedNodes)) as HTMLElement[]
+      );
     });
     const target = await this.waitTargetDisplayed();
     this.onChange(target);
+    this.onAdd(Array.from(target.children) as HTMLElement[]);
     observer?.observe(target, {
       ...this.mutationObserverInit
     });

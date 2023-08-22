@@ -6,7 +6,17 @@ class DomObserverInstance extends DomObserver {
     super({targetSelector: '.target', mutationObserverInit: {childList: true}});
   }
 
-  public onChange(element: HTMLElement): void {}
+  onChange(element: HTMLElement) {
+    super.onChange(element);
+  }
+
+  onAdd(elements: HTMLElement[]) {
+    super.onAdd(elements);
+  }
+
+  onRemove(elements: HTMLElement[]) {
+    super.onRemove(elements);
+  }
 }
 
 describe('DomObserver', () => {
@@ -72,17 +82,77 @@ describe('DomObserver', () => {
     expect(target.classList.contains('target')).toBeTruthy();
   });
 
-  it('should be called onChange() when startObserve() is called', async () => {
+  it('should be called onChange() / onAdd() when startObserve() is called', async () => {
     // Arrange
-    const spy = jest.spyOn(domObserver, 'onChange');
+    const onChangeSpy = jest.spyOn(domObserver, 'onChange');
+    const onAddSpy = jest.spyOn(domObserver, 'onAdd');
     document.body.innerHTML = `
-       <div class="target"></div>
+       <div class="target">
+         <div class="list-item">item 1</div>
+         <div class="list-item">item 2</div>
+         <div class="list-item">item 3</div>
+       </div>
     `;
 
     // Act
     await domObserver.startObserve();
 
     // Assert
-    expect(spy).toBeCalled();
+    expect(onChangeSpy).toBeCalledWith(document.querySelector('.target'));
+    expect(onAddSpy).toBeCalledWith(
+      expect.arrayContaining(Array.from(document.querySelectorAll('.list-item')))
+    );
+  });
+
+  it('should be called onChange() / onAdd() when child is added', async () => {
+    // Arrange
+    document.body.innerHTML = `
+       <div class="target">
+         <div class="list-item">item 1</div>
+         <div class="list-item">item 2</div>
+         <div class="list-item">item 3</div>
+       </div>
+    `;
+    const appendElement = document.createElement('div');
+    appendElement.classList.add('list-item');
+    appendElement.textContent = 'item 4';
+    await domObserver.startObserve();
+    const onChangeSpy = jest.spyOn(domObserver, 'onChange');
+    const onAddSpy = jest.spyOn(domObserver, 'onAdd');
+    const onRemoveSpy = jest.spyOn(domObserver, 'onRemove');
+
+    // Act
+    document.querySelector('.target')!.appendChild(appendElement);
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Assert
+    expect(onChangeSpy).toBeCalledWith(document.querySelector('.target'));
+    expect(onAddSpy).toBeCalledWith([appendElement]);
+    expect(onRemoveSpy).toBeCalledWith([]);
+  });
+
+  it('should be called onChange() / onAdd() when child is removed', async () => {
+    // Arrange
+    document.body.innerHTML = `
+       <div class="target">
+         <div class="list-item">item 1</div>
+         <div class="list-item">item 2</div>
+         <div class="list-item">item 3</div>
+       </div>
+    `;
+    const beforeChange = Array.from(document.querySelectorAll('.list-item'));
+    await domObserver.startObserve();
+    const onChangeSpy = jest.spyOn(domObserver, 'onChange');
+    const onAddSpy = jest.spyOn(domObserver, 'onAdd');
+    const onRemoveSpy = jest.spyOn(domObserver, 'onRemove');
+
+    // Act
+    document.querySelector('.target')!.removeChild(document.querySelectorAll('.list-item')![0]);
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Assert
+    expect(onChangeSpy).toBeCalledWith(document.querySelector('.target'));
+    expect(onAddSpy).toBeCalledWith([]);
+    expect(onRemoveSpy).toBeCalledWith([beforeChange[0]]);
   });
 });

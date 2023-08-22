@@ -13,26 +13,23 @@ export class GiftObserver extends DomObserver {
       targetSelector: '.gLogs',
       mutationObserverInit: {
         childList: true,
+        attributes: false,
       }
     });
   }
 
   /**
-   * Parse gifts from the element and add them to the state.
-   * @param element element to parse gifts from
+   * Dispatch add action when gifts are added.
+   * @param elements gift elements
    */
-  onChange(element: HTMLElement): void {
-    const itemNodes = element.querySelectorAll('.list-item');
-    const gifts = Array.from(itemNodes)
-      .reverse()
-      .map((itemNode, index) => {
-        // Skip if the item is already loaded
-        if (itemNode.getAttribute('data-loaded') === 'true') {
+  onAdd(elements: HTMLElement[]) {
+    const gifts = elements
+      .map(element => {
+        if (element.getAttribute('data-loaded') === 'true') {
           return null;
         }
-        itemNode.setAttribute('data-loaded', 'true');
-
-        const nameAndCount = itemNode.querySelector('.count');
+        element.setAttribute('data-loaded', 'true');
+        const nameAndCount = element.querySelector('.count');
         if (!nameAndCount) {
           return null;
         }
