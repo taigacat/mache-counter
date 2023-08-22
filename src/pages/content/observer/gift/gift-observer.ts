@@ -10,7 +10,7 @@ export class GiftObserver extends DomObserver {
 
   constructor() {
     super({
-      targetSelector: '.gifting_list', // TODO: specify targetSelector
+      targetSelector: '.gLogs',
       mutationObserverInit: {
         childList: true,
       }

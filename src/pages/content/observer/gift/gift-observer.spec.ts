@@ -17,7 +17,7 @@ describe('GiftObserver', () => {
     // Arrange
     const spy = jest.spyOn(MutationObserver.prototype, 'observe');
     document.body.innerHTML = `
-        <div class="gifting_list"></div>
+        <div class="gLogs"></div>
     `;
 
     // Act
@@ -37,7 +37,7 @@ describe('GiftObserver', () => {
     // Arrange
     const dispatchSpy = jest.spyOn(store, 'dispatch');
     document.body.innerHTML = `
-        <div class="gifting_list">
+        <div class="gLogs">
             <div class="list-item">
                 <div class="count">gift1 × 1</div>
             </div>
@@ -69,7 +69,7 @@ describe('GiftObserver', () => {
     // Arrange
     const dispatchSpy = jest.spyOn(store, 'dispatch');
     document.body.innerHTML = `
-        <div class="gifting_list">
+        <div class="gLogs">
             <div class="list-item dummy" />
         </div>
     `;
@@ -90,7 +90,7 @@ describe('GiftObserver', () => {
     // Arrange
     const dispatchSpy = jest.spyOn(store, 'dispatch');
     document.body.innerHTML = `
-        <div class="gifting_list">
+        <div class="gLogs">
             <div class="list-item">
                 <div class="count">
                     <span/>
