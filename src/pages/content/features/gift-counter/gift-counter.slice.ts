@@ -39,7 +39,7 @@ const giftCounterSlice = createSlice({
      * Update gifts in the state
      * @param state current state
      * @param action action with gifts to update
-     * @deprecated use add instead
+     * @deprecated use add instead for performance reasons
      */
     update(state, action) {
       const payload = (action.payload || []) as Gift[];
