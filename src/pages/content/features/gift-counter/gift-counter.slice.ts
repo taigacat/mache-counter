@@ -42,11 +42,7 @@ const giftCounterSlice = createSlice({
      * @deprecated use add instead
      */
     update(state, action) {
-      const payload = action.payload as Gift[];
-      if (!payload || payload.length === 0) {
-        return;
-      }
-
+      const payload = (action.payload || []) as Gift[];
       state.gifts = payload.reduce((prev: { [name: string]: Gift }, gift: Gift) => {
         const current_gift = prev[gift.name];
         return {

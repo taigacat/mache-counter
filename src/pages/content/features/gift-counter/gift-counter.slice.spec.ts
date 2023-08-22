@@ -94,4 +94,42 @@ describe('GiftCounterSlice', () => {
     expect(currentGifts['gift1']).toEqual({name: 'gift1', count: 7});
     expect(currentGifts['gift2']).toEqual({name: 'gift2', count: 2});
   });
+
+  it('update gifts with empty array', () => {
+    // Arrange
+    const initialState = {
+      gifts: {
+        gift1: {name: 'gift1', count: 1},
+        gift2: {name: 'gift2', count: 2},
+        gift3: {name: 'gift3', count: 3},
+      }
+    };
+    const action = giftAction.update([]);
+
+    // Act
+    const state = giftCounterSlice.reducer(initialState, action);
+
+    // Assert
+    const currentGifts = state.gifts;
+    expect(Object.keys(currentGifts).length).toEqual(0);
+  });
+
+  it('update gift with undefined', () => {
+    // Arrange
+    const initialState = {
+      gifts: {
+        gift1: {name: 'gift1', count: 1},
+        gift2: {name: 'gift2', count: 2},
+        gift3: {name: 'gift3', count: 3},
+      }
+    };
+    const action = giftAction.update(undefined);
+
+    // Act
+    const state = giftCounterSlice.reducer(initialState, action);
+
+    // Assert
+    const currentGifts = state.gifts;
+    expect(Object.keys(currentGifts).length).toEqual(0);
+  });
 });
