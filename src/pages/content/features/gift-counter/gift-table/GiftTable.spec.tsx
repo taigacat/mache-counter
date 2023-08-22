@@ -22,11 +22,13 @@ describe("GiftTable", () => {
   it('should display the given gifts', () => {
     // Arrange
     const gift = {
-      name: 'Test Gift',
+      name: 'Test Gift 1',
       count: 4,
     };
     jest.spyOn(store, 'getState').mockReturnValue({
-      gifts: [gift],
+      gifts: {
+        [gift.name]: gift,
+      },
     });
 
     // Act

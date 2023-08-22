@@ -4,11 +4,11 @@ describe('GiftCounterSelector', () => {
   it('create gift summary', () => {
     // Arrange
     const state = {
-      gifts: [
-        {name: 'gift1', count: 1},
-        {name: 'gift2', count: 2},
-        {name: 'gift1', count: 3},
-      ],
+      gifts: {
+        gift1: {name: 'gift1', count: 1},
+        gift2: {name: 'gift2', count: 2},
+        gift3: {name: 'gift3', count: 3},
+      },
     }
 
     // Act
@@ -16,15 +16,16 @@ describe('GiftCounterSelector', () => {
 
     // Assert
     expect(result).toEqual([
-      {name: 'gift1', count: 4},
+      {name: 'gift3', count: 3},
       {name: 'gift2', count: 2},
+      {name: 'gift1', count: 1},
     ]);
   });
 
   it('create gift summary with empty state', () => {
     // Arrange
     const state = {
-      gifts: [],
+      gifts: {},
     }
 
     // Act

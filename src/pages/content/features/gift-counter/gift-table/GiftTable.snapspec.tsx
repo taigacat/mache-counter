@@ -6,10 +6,14 @@ import {GiftTable} from './GiftTable';
 describe('GiftTable snapshot', () => {
   it('should match snapshot', () => {
     // Arrange
+    const gift = {
+      name: 'Test Gift 1',
+      count: 4,
+    };
     jest.spyOn(store, 'getState').mockReturnValue({
-      gifts: [
-        {name: 'Test Gift 1', count: 4},
-      ],
+      gifts: {
+        [gift.name]: gift,
+      },
     });
 
     // Act

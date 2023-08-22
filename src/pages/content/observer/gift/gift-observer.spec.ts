@@ -33,7 +33,7 @@ describe('GiftObserver', () => {
     );
   });
 
-  it('should dispatch update action when the target is changed', async () => {
+  it('should dispatch add action when the target is changed', async () => {
     // Arrange
     const dispatchSpy = jest.spyOn(store, 'dispatch');
     document.body.innerHTML = `
@@ -57,11 +57,11 @@ describe('GiftObserver', () => {
     // Assert
     expect(dispatchSpy).toBeCalledWith({
       payload: [
-        {name: 'gift1', count: 1},
-        {name: 'gift2', count: 2},
         {name: 'gift1', count: 3},
+        {name: 'gift2', count: 2},
+        {name: 'gift1', count: 1},
       ],
-      type: 'gifts/update',
+      type: 'gifts/add',
     });
   });
 
@@ -81,7 +81,7 @@ describe('GiftObserver', () => {
     // Assert
     expect(dispatchSpy).toBeCalledWith({
       payload: [],
-      type: 'gifts/update',
+      type: 'gifts/add',
     });
   });
 
@@ -106,7 +106,7 @@ describe('GiftObserver', () => {
     // Assert
     expect(dispatchSpy).toBeCalledWith({
       payload: [],
-      type: 'gifts/update',
+      type: 'gifts/add',
     });
   });
 

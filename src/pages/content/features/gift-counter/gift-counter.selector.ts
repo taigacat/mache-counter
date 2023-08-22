@@ -3,17 +3,13 @@ import {RootState} from '../../rootState.type';
 
 export const giftCounterSelector = (state: RootState) => state.gifts;
 
+/**
+ * Selector for gift summery.
+ * @param state current state
+ * @returns gift summery ordered by count descending
+ */
 export const giftSummerySelector = createSelector(giftCounterSelector, (gifts) => {
-  const giftMap = gifts.reduce((acc, gift) => {
-    if (acc[gift.name]) {
-      acc[gift.name] += gift.count;
-    } else {
-      acc[gift.name] = gift.count;
-    }
-    return acc;
-  }, {} as { [key: string]: number });
-
-  return Object.entries(giftMap)
-    .sort(([, countA], [, countB]) => countB - countA)
-    .map(([name, count]) => ({name, count}));
+  return Object.entries(gifts)
+    .sort(([, giftA], [, giftB]) => giftB.count - giftA.count)
+    .map(([_, gift]) => gift);
 });

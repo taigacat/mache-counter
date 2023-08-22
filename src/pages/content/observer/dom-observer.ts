@@ -14,7 +14,9 @@ export abstract class DomObserver {
   }
 
   public start() {
-    this.startObserve().then(r => console.log('startObserve resolved'));
+    this.startObserve().then(_ => {
+      return;
+    });
   }
 
   abstract onChange(element: HTMLElement): void;
