@@ -1,20 +1,19 @@
-import {Gift} from '../../../../models/Gift';
-import {giftAction} from "../../features/gift-counter/gift-counter.slice";
-import {store} from '../../store';
-import {DomObserver} from '../dom-observer';
+import { Gift } from '../../../../models/Gift';
+import { giftAction } from '../../features/gift-counter/gift-counter.slice';
+import { store } from '../../store';
+import { DomObserver } from '../dom-observer';
 
 /**
  * Observer for gifts.
  */
 export class GiftObserver extends DomObserver {
-
   constructor() {
     super({
       targetSelector: '.gLogs',
       mutationObserverInit: {
         childList: true,
         attributes: false,
-      }
+      },
     });
   }
 
@@ -24,7 +23,7 @@ export class GiftObserver extends DomObserver {
    */
   onAdd(elements: HTMLElement[]) {
     const gifts = elements
-      .map(element => {
+      .map((element) => {
         if (element.getAttribute('data-loaded') === 'true') {
           return null;
         }
@@ -35,7 +34,7 @@ export class GiftObserver extends DomObserver {
         }
         return this.splitGiftText(nameAndCount.textContent);
       })
-      .filter(item => item !== null) as Gift[];
+      .filter((item) => item !== null) as Gift[];
 
     store.dispatch(giftAction.add(gifts));
   }
@@ -44,7 +43,9 @@ export class GiftObserver extends DomObserver {
    * Split gift text into name and count.
    * @param text gift text to split
    */
-  splitGiftText(text: string | undefined | null): { name: string, count: number } | null {
+  splitGiftText(
+    text: string | undefined | null,
+  ): { name: string; count: number } | null {
     if (!text) {
       return null;
     }
@@ -52,7 +53,7 @@ export class GiftObserver extends DomObserver {
     const name = text.split('×')[0].trim();
     const count = parseInt(text.split('×')[1]?.trim() ?? '0');
     if (name && count) {
-      return {name, count};
+      return { name, count };
     } else {
       return null;
     }

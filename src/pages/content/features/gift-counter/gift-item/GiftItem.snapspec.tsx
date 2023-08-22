@@ -1,5 +1,5 @@
-import {render} from '@testing-library/react';
-import {GiftItem} from './GiftItem';
+import { render } from '@testing-library/react';
+import { GiftItem } from './GiftItem';
 
 describe('GiftItem snapshot', () => {
   it('should match snapshot', () => {
@@ -10,9 +10,7 @@ describe('GiftItem snapshot', () => {
     };
 
     // Act
-    const {container} = render(
-      <GiftItem gift={gift}/>
-    );
+    const { container } = render(<GiftItem gift={gift} />);
 
     // Assert
     expect(container).toMatchSnapshot();

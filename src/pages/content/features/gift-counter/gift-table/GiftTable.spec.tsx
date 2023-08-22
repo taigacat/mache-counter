@@ -1,16 +1,16 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
-import {Provider} from 'react-redux';
-import {store} from '../../../store';
-import {GiftTable} from './GiftTable';
+import { Provider } from 'react-redux';
+import { store } from '../../../store';
+import { GiftTable } from './GiftTable';
 
-describe("GiftTable", () => {
+describe('GiftTable', () => {
   it('should be initialized with no gifts', () => {
     // Act
-    const {container} = render(
+    const { container } = render(
       <Provider store={store}>
-        <GiftTable/>
-      </Provider>
+        <GiftTable />
+      </Provider>,
     );
 
     // Assert
@@ -32,10 +32,10 @@ describe("GiftTable", () => {
     });
 
     // Act
-    const {container} = render(
+    const { container } = render(
       <Provider store={store}>
-        <GiftTable/>
-      </Provider>
+        <GiftTable />
+      </Provider>,
     );
 
     // Assert

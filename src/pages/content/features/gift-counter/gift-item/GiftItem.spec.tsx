@@ -3,7 +3,7 @@ import React from 'react';
 import { Gift } from '../../../../../models/Gift';
 import { GiftItem } from './GiftItem';
 
-describe("GiftItem", () => {
+describe('GiftItem', () => {
   let gift: Gift;
 
   beforeEach(() => {
