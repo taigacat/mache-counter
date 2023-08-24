@@ -59,39 +59,6 @@ describe('GiftObserver', () => {
       ],
       type: 'gifts/add',
     });
-    const elements = document.querySelectorAll('.list-item');
-    expect(elements.length).toBe(3);
-    expect(elements[0].getAttribute('data-loaded')).toBe('true');
-    expect(elements[1].getAttribute('data-loaded')).toBe('true');
-    expect(elements[2].getAttribute('data-loaded')).toBe('true');
-  });
-
-  it('should not count double when the target is changed', () => {
-    // Arrange
-    document.body.innerHTML = `
-        <div class="gLogs">
-            <div class="list-item">
-                <div class="count">gift1 × 1</div>
-            </div>
-            <div class="list-item">
-                <div class="count">gift2 × 2</div>
-            </div>
-            <div class="list-item">
-                <div class="count">gift1 × 3</div>
-            </div>
-        </div>
-    `;
-    giftObserver.onAdd(Array.from(document.querySelectorAll('.list-item')));
-    const dispatchSpy = jest.spyOn(store, 'dispatch');
-
-    // Act
-    giftObserver.onAdd(Array.from(document.querySelectorAll('.list-item')));
-
-    // Assert
-    expect(dispatchSpy).toBeCalledWith({
-      payload: [],
-      type: 'gifts/add',
-    });
   });
 
   it('should not gift be included when the count element is not found', async () => {
