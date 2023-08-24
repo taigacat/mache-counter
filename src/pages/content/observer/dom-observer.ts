@@ -1,11 +1,13 @@
 export abstract class DomObserver {
-
   targetSelector: string;
   mutationObserverInit?: MutationObserverInit;
 
-  protected constructor({targetSelector, mutationObserverInit}: {
-    targetSelector: string,
-    mutationObserverInit?: MutationObserverInit
+  protected constructor({
+    targetSelector,
+    mutationObserverInit,
+  }: {
+    targetSelector: string;
+    mutationObserverInit?: MutationObserverInit;
   }) {
     this.targetSelector = targetSelector;
     this.mutationObserverInit = mutationObserverInit;
@@ -19,22 +21,19 @@ export abstract class DomObserver {
    * Called when the target is changed.
    * @param element
    */
-  onChange(element: HTMLElement): void {
-  };
+  onChange(element: HTMLElement): void {}
 
   /**
    * Called when the target is added.
    * @param elements
    */
-  onAdd(elements: HTMLElement[]): void {
-  };
+  onAdd(elements: HTMLElement[]): void {}
 
   /**
    * Called when the target is removed.
    * @param elements
    */
-  onRemove(elements: HTMLElement[]): void {
-  };
+  onRemove(elements: HTMLElement[]): void {}
 
   async waitTargetDisplayed(): Promise<HTMLElement> {
     return new Promise((resolve, reject) => {
@@ -49,8 +48,7 @@ export abstract class DomObserver {
       setTimeout(() => {
         try {
           clearInterval(intervalId);
-        } catch (ignored) {
-        }
+        } catch (ignored) {}
         reject('Timeout');
       }, 10000);
     });
@@ -60,17 +58,21 @@ export abstract class DomObserver {
     const observer = new MutationObserver((mutations) => {
       this.onChange(mutations[mutations.length - 1].target as HTMLElement);
       this.onAdd(
-        mutations.flatMap(mutation => Array.from(mutation.addedNodes)) as HTMLElement[]
+        mutations.flatMap((mutation) =>
+          Array.from(mutation.addedNodes),
+        ) as HTMLElement[],
       );
       this.onRemove(
-        mutations.flatMap(mutation => Array.from(mutation.removedNodes)) as HTMLElement[]
+        mutations.flatMap((mutation) =>
+          Array.from(mutation.removedNodes),
+        ) as HTMLElement[],
       );
     });
     const target = await this.waitTargetDisplayed();
     this.onChange(target);
     this.onAdd(Array.from(target.children) as HTMLElement[]);
     observer.observe(target, {
-      ...this.mutationObserverInit
+      ...this.mutationObserverInit,
     });
   }
 }

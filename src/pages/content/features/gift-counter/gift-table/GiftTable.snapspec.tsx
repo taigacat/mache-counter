@@ -1,7 +1,7 @@
-import {render} from '@testing-library/react';
-import {Provider} from 'react-redux';
-import {store} from '../../../store';
-import {GiftTable} from './GiftTable';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { store } from '../../../store';
+import { GiftTable } from './GiftTable';
 
 describe('GiftTable snapshot', () => {
   it('should match snapshot', () => {
@@ -17,10 +17,10 @@ describe('GiftTable snapshot', () => {
     });
 
     // Act
-    const {container} = render(
+    const { container } = render(
       <Provider store={store}>
-        <GiftTable/>
-      </Provider>
+        <GiftTable />
+      </Provider>,
     );
 
     // Assert

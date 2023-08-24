@@ -1,5 +1,5 @@
-import {store} from '../../store';
-import {GiftObserver} from './gift-observer';
+import { store } from '../../store';
+import { GiftObserver } from './gift-observer';
 
 describe('GiftObserver', () => {
   let giftObserver: GiftObserver;
@@ -24,13 +24,10 @@ describe('GiftObserver', () => {
     await giftObserver.start();
 
     // Assert
-    expect(spy).toBeCalledWith(
-      expect.any(HTMLElement),
-      {
-        childList: true,
-        attributes: false,
-      }
-    );
+    expect(spy).toBeCalledWith(expect.any(HTMLElement), {
+      childList: true,
+      attributes: false,
+    });
   });
 
   it('should dispatch add action when the target is changed', async () => {
@@ -56,9 +53,9 @@ describe('GiftObserver', () => {
     // Assert
     expect(dispatchSpy).toBeCalledWith({
       payload: [
-        {name: 'gift1', count: 1},
-        {name: 'gift2', count: 2},
-        {name: 'gift1', count: 3},
+        { name: 'gift1', count: 1 },
+        { name: 'gift2', count: 2 },
+        { name: 'gift1', count: 3 },
       ],
       type: 'gifts/add',
     });
@@ -82,7 +79,6 @@ describe('GiftObserver', () => {
       type: 'gifts/add',
     });
   });
-
 
   it('should not gift be included when the count text is empty', async () => {
     // Arrange
@@ -115,7 +111,7 @@ describe('GiftObserver', () => {
     const result = giftObserver.splitGiftText(text);
 
     // Assert
-    expect(result).toEqual({name: 'gift1', count: 1});
+    expect(result).toEqual({ name: 'gift1', count: 1 });
   });
 
   it('should be null when the count is 0', () => {
