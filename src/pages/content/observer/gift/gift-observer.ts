@@ -25,10 +25,6 @@ export class GiftObserver extends DomObserver {
   onAdd(elements: HTMLElement[]) {
     const gifts = elements
       .map(element => {
-        if (element.getAttribute('data-loaded') === 'true') {
-          return null;
-        }
-        element.setAttribute('data-loaded', 'true');
         const nameAndCount = element.querySelector('.count');
         if (!nameAndCount) {
           return null;
