@@ -85,7 +85,7 @@ jobs:
       - name: Run test
         run: npm run test:ci
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./reports/coverage/lcov.info
