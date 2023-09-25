@@ -5,6 +5,7 @@ describe('GiftCounterSlice', () => {
     // Arrange
     const initialState = {
       gifts: {},
+      allGifts: [],
     };
     const action = giftAction.add([
       { name: 'gift1', count: 1 },
@@ -30,6 +31,7 @@ describe('GiftCounterSlice', () => {
         gift2: 2,
         gift3: 3,
       },
+      allGifts: [],
     };
     const action = giftAction.add([
       { name: 'gift1', count: 6 },
@@ -52,6 +54,7 @@ describe('GiftCounterSlice', () => {
     // Arrange
     const initialState = {
       gifts: {},
+      allGifts: [],
     };
     const action = giftAction.update([
       { name: 'gift1', count: 1 },
@@ -77,6 +80,7 @@ describe('GiftCounterSlice', () => {
         gift2: 2,
         gift3: 3,
       },
+      allGifts: [],
     };
     const action = giftAction.update([
       { name: 'gift1', count: 6 },
@@ -102,6 +106,7 @@ describe('GiftCounterSlice', () => {
         gift2: 2,
         gift3: 3,
       },
+      allGifts: [],
     };
     const action = giftAction.update([]);
 
@@ -121,6 +126,7 @@ describe('GiftCounterSlice', () => {
         gift2: 2,
         gift3: 3,
       },
+      allGifts: [],
     };
     const action = giftAction.update(undefined);
 

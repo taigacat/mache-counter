@@ -9,6 +9,11 @@ describe('GiftCounterSelector', () => {
         gift2: 2,
         gift3: 3,
       },
+      allGifts: [
+        { name: 'gift1', count: 1, sender: 'sender 1' },
+        { name: 'gift2', count: 2, sender: 'sender 2' },
+        { name: 'gift1', count: 3, sender: 'sender 3' },
+      ],
     };
 
     // Act
@@ -26,6 +31,7 @@ describe('GiftCounterSelector', () => {
     // Arrange
     const state = {
       gifts: {},
+      allGifts: [],
     };
 
     // Act

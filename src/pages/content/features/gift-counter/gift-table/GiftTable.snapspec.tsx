@@ -15,6 +15,7 @@ describe('GiftTable snapshot', () => {
       gifts: {
         [gift.name]: 4,
       },
+      allGifts: [gift],
     });
 
     // Act

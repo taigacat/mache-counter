@@ -3,10 +3,12 @@ import { Gift } from '../../../../models/Gift';
 
 type State = {
   gifts: { [key: string]: number };
+  allGifts: Gift[];
 };
 
 const initialState: State = {
   gifts: {},
+  allGifts: [],
 };
 
 const giftCounterSlice = createSlice({
@@ -34,6 +36,8 @@ const giftCounterSlice = createSlice({
         },
         state.gifts,
       );
+
+      state.allGifts = [...state.allGifts, ...payload];
     },
     /**
      * Update gifts in the state
@@ -53,6 +57,8 @@ const giftCounterSlice = createSlice({
         },
         {},
       );
+
+      state.allGifts = [...payload];
     },
   },
 });
