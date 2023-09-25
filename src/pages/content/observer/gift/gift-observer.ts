@@ -23,12 +23,13 @@ export class GiftObserver extends DomObserver {
    */
   onAdd(elements: HTMLElement[]) {
     const gifts = elements
-      .map(element => {
+      .map((element) => {
         const nameAndCount = element.querySelector('.count');
-        if (!nameAndCount) {
+        const sender = element.querySelector('.name');
+        if (!nameAndCount || typeof sender === 'undefined') {
           return null;
         }
-        return this.splitGiftText(nameAndCount.textContent);
+        return this.toGift(nameAndCount.textContent, sender?.textContent);
       })
       .filter((item) => item !== null) as Gift[];
 
@@ -38,18 +39,20 @@ export class GiftObserver extends DomObserver {
   /**
    * Split gift text into name and count.
    * @param text gift text to split
+   * @param sender gift sender
    */
-  splitGiftText(
+  toGift(
     text: string | undefined | null,
-  ): { name: string; count: number } | null {
-    if (!text) {
+    sender: string | undefined | null,
+  ): { name: string; count: number; sender: string } | null {
+    if (!text || !sender) {
       return null;
     }
 
     const name = text.split('×')[0].trim();
     const count = parseInt(text.split('×')[1]?.trim() ?? '0');
     if (name && count) {
-      return { name, count };
+      return { name, count, sender };
     } else {
       return null;
     }

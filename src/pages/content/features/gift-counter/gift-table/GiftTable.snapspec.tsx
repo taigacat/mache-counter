@@ -9,10 +9,11 @@ describe('GiftTable snapshot', () => {
     const gift = {
       name: 'Test Gift 1',
       count: 4,
+      sender: 'Test Sender',
     };
     jest.spyOn(store, 'getState').mockReturnValue({
       gifts: {
-        [gift.name]: gift,
+        [gift.name]: 4,
       },
     });
 

@@ -18,17 +18,17 @@ describe('GiftCounterSlice', () => {
     // Assert
     const currentGifts = state.gifts;
     expect(Object.keys(currentGifts).length).toEqual(2);
-    expect(currentGifts['gift1']).toEqual({ name: 'gift1', count: 4 });
-    expect(currentGifts['gift2']).toEqual({ name: 'gift2', count: 2 });
+    expect(currentGifts['gift1']).toEqual(4);
+    expect(currentGifts['gift2']).toEqual(2);
   });
 
   it('add gifts when gifts already exist', () => {
     // Arrange
     const initialState = {
       gifts: {
-        gift1: { name: 'gift1', count: 1 },
-        gift2: { name: 'gift2', count: 2 },
-        gift3: { name: 'gift3', count: 3 },
+        gift1: 1,
+        gift2: 2,
+        gift3: 3,
       },
     };
     const action = giftAction.add([
@@ -43,9 +43,9 @@ describe('GiftCounterSlice', () => {
     // Assert
     const currentGifts = state.gifts;
     expect(Object.keys(currentGifts).length).toEqual(3);
-    expect(currentGifts['gift1']).toEqual({ name: 'gift1', count: 8 });
-    expect(currentGifts['gift2']).toEqual({ name: 'gift2', count: 4 });
-    expect(currentGifts['gift3']).toEqual({ name: 'gift3', count: 3 });
+    expect(currentGifts['gift1']).toEqual(8);
+    expect(currentGifts['gift2']).toEqual(4);
+    expect(currentGifts['gift3']).toEqual(3);
   });
 
   it('update gifts', () => {
@@ -65,17 +65,17 @@ describe('GiftCounterSlice', () => {
     // Assert
     const currentGifts = state.gifts;
     expect(Object.keys(currentGifts).length).toEqual(2);
-    expect(currentGifts['gift1']).toEqual({ name: 'gift1', count: 4 });
-    expect(currentGifts['gift2']).toEqual({ name: 'gift2', count: 2 });
+    expect(currentGifts['gift1']).toEqual(4);
+    expect(currentGifts['gift2']).toEqual(2);
   });
 
   it('update gifts when gift already exists', () => {
     // Arrange
     const initialState = {
       gifts: {
-        gift1: { name: 'gift1', count: 1 },
-        gift2: { name: 'gift2', count: 2 },
-        gift3: { name: 'gift3', count: 3 },
+        gift1: 1,
+        gift2: 2,
+        gift3: 3,
       },
     };
     const action = giftAction.update([
@@ -90,17 +90,17 @@ describe('GiftCounterSlice', () => {
     // Assert
     const currentGifts = state.gifts;
     expect(Object.keys(currentGifts).length).toEqual(2);
-    expect(currentGifts['gift1']).toEqual({ name: 'gift1', count: 7 });
-    expect(currentGifts['gift2']).toEqual({ name: 'gift2', count: 2 });
+    expect(currentGifts['gift1']).toEqual(7);
+    expect(currentGifts['gift2']).toEqual(2);
   });
 
   it('update gifts with empty array', () => {
     // Arrange
     const initialState = {
       gifts: {
-        gift1: { name: 'gift1', count: 1 },
-        gift2: { name: 'gift2', count: 2 },
-        gift3: { name: 'gift3', count: 3 },
+        gift1: 1,
+        gift2: 2,
+        gift3: 3,
       },
     };
     const action = giftAction.update([]);
@@ -117,9 +117,9 @@ describe('GiftCounterSlice', () => {
     // Arrange
     const initialState = {
       gifts: {
-        gift1: { name: 'gift1', count: 1 },
-        gift2: { name: 'gift2', count: 2 },
-        gift3: { name: 'gift3', count: 3 },
+        gift1: 1,
+        gift2: 2,
+        gift3: 3,
       },
     };
     const action = giftAction.update(undefined);

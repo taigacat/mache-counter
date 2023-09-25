@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Gift } from '../../../../models/Gift';
 
 type State = {
-  gifts: { [key: string]: Gift };
+  gifts: { [key: string]: number };
 };
 
 const initialState: State = {
@@ -25,16 +25,11 @@ const giftCounterSlice = createSlice({
       }
 
       state.gifts = payload.reduce(
-        (prev: { [name: string]: Gift }, gift: Gift) => {
+        (prev: { [name: string]: number }, gift: Gift) => {
           const current_gift = prev[gift.name];
           return {
             ...prev,
-            [gift.name]: {
-              ...gift,
-              count: current_gift
-                ? current_gift.count + gift.count
-                : gift.count,
-            },
+            [gift.name]: current_gift ? current_gift + gift.count : gift.count,
           };
         },
         state.gifts,
@@ -49,16 +44,11 @@ const giftCounterSlice = createSlice({
     update(state, action) {
       const payload = (action.payload || []) as Gift[];
       state.gifts = payload.reduce(
-        (prev: { [name: string]: Gift }, gift: Gift) => {
+        (prev: { [name: string]: number }, gift: Gift) => {
           const current_gift = prev[gift.name];
           return {
             ...prev,
-            [gift.name]: {
-              ...gift,
-              count: current_gift
-                ? current_gift.count + gift.count
-                : gift.count,
-            },
+            [gift.name]: current_gift ? current_gift + gift.count : gift.count,
           };
         },
         {},

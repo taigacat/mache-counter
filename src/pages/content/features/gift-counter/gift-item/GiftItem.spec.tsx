@@ -10,6 +10,7 @@ describe('GiftItem', () => {
     gift = {
       name: 'Test Gift',
       count: 4,
+      sender: 'Test Sender',
     };
   });
 

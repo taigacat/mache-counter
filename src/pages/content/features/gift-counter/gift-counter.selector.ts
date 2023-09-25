@@ -12,7 +12,10 @@ export const giftSummerySelector = createSelector(
   giftCounterSelector,
   (gifts) => {
     return Object.entries(gifts)
-      .sort(([, giftA], [, giftB]) => giftB.count - giftA.count)
-      .map(([_, gift]) => gift);
+      .sort(([, giftACount], [, giftBCount]) => giftBCount - giftACount)
+      .map(([name, count]) => ({
+        name,
+        count,
+      }));
   },
 );

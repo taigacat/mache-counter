@@ -36,12 +36,15 @@ describe('GiftObserver', () => {
     document.body.innerHTML = `
         <div class="gLogs">
             <div class="list-item">
+                <div class="name">sender</div>
                 <div class="count">gift1 × 1</div>
             </div>
             <div class="list-item">
+                <div class="name">sender</div>
                 <div class="count">gift2 × 2</div>
             </div>
             <div class="list-item">
+                <div class="name">sender</div>
                 <div class="count">gift1 × 3</div>
             </div>
         </div>
@@ -53,9 +56,9 @@ describe('GiftObserver', () => {
     // Assert
     expect(dispatchSpy).toBeCalledWith({
       payload: [
-        { name: 'gift1', count: 1 },
-        { name: 'gift2', count: 2 },
-        { name: 'gift1', count: 3 },
+        { name: 'gift1', count: 1, sender: 'sender' },
+        { name: 'gift2', count: 2, sender: 'sender' },
+        { name: 'gift1', count: 3, sender: 'sender' },
       ],
       type: 'gifts/add',
     });
@@ -108,10 +111,10 @@ describe('GiftObserver', () => {
     const text = 'gift1 × 1';
 
     // Act
-    const result = giftObserver.splitGiftText(text);
+    const result = giftObserver.toGift(text, 'sender');
 
     // Assert
-    expect(result).toEqual({ name: 'gift1', count: 1 });
+    expect(result).toEqual({ name: 'gift1', count: 1, sender: 'sender' });
   });
 
   it('should be null when the count is 0', () => {
@@ -119,7 +122,7 @@ describe('GiftObserver', () => {
     const text = 'gift1 × 0';
 
     // Act
-    const result = giftObserver.splitGiftText(text);
+    const result = giftObserver.toGift(text, 'sender');
 
     // Assert
     expect(result).toBeNull();
@@ -130,7 +133,7 @@ describe('GiftObserver', () => {
     const text = '× 1';
 
     // Act
-    const result = giftObserver.splitGiftText(text);
+    const result = giftObserver.toGift(text, 'sender');
 
     // Assert
     expect(result).toBeNull();
@@ -141,7 +144,7 @@ describe('GiftObserver', () => {
     const text = 'gift1';
 
     // Act
-    const result = giftObserver.splitGiftText(text);
+    const result = giftObserver.toGift(text, 'sender');
 
     // Assert
     expect(result).toBeNull();
@@ -152,7 +155,7 @@ describe('GiftObserver', () => {
     const text = 'gift1 × a';
 
     // Act
-    const result = giftObserver.splitGiftText(text);
+    const result = giftObserver.toGift(text, 'sender');
 
     // Assert
     expect(result).toBeNull();
@@ -163,7 +166,7 @@ describe('GiftObserver', () => {
     const text = '';
 
     // Act
-    const result = giftObserver.splitGiftText(text);
+    const result = giftObserver.toGift(text, 'sender');
 
     // Assert
     expect(result).toBeNull();
@@ -174,7 +177,7 @@ describe('GiftObserver', () => {
     const text = '×';
 
     // Act
-    const result = giftObserver.splitGiftText(text);
+    const result = giftObserver.toGift(text, 'sender');
 
     // Assert
     expect(result).toBeNull();
@@ -183,9 +186,10 @@ describe('GiftObserver', () => {
   it('should not be thrown error when the text is undefined', () => {
     // Arrange
     const text = undefined;
+    const sender = undefined;
 
     // Act
-    const result = giftObserver.splitGiftText(text);
+    const result = giftObserver.toGift(text, sender);
 
     // Assert
     expect(result).toBeNull();
@@ -194,9 +198,10 @@ describe('GiftObserver', () => {
   it('should not be thrown error when the text is null', () => {
     // Arrange
     const text = null;
+    const sender = null;
 
     // Act
-    const result = giftObserver.splitGiftText(text);
+    const result = giftObserver.toGift(text, sender);
 
     // Assert
     expect(result).toBeNull();
