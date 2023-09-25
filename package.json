@@ -12,7 +12,8 @@
     "test:snapshot": "jest --config jest.config.snap.js --passWithNoTests",
     "test:snapshot:update": "jest --config jest.config.snap.js --passWithNoTests --updateSnapshot",
     "test:ci": "jest --ci --passWithNoTests && jest --config jest.config.snap.js --ci --passWithNoTests",
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
