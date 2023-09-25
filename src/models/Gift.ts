@@ -5,5 +5,5 @@
 export interface Gift {
   name: string;
   count: number;
-  sender?: string;
+  sender: string;
 }

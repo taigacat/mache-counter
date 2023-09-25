@@ -7,18 +7,13 @@ import styles from './GiftItem.module.scss';
  * @interface
  */
 interface Prop {
-  gift: Gift;
+  gift: { name: string; count: number };
 }
 
 /**
  * GiftItem component.
  *
- * @component
- *
- * @param {Object} props - The component props.
- * @param {Object} props.gift - Information about the gift.
- *
- * @returns {JSX.Element} The rendered GiftItem component.
+ * @returns The rendered GiftItem component.
  */
 export const GiftItem: React.FC<Prop> = ({ gift }) => {
   return (

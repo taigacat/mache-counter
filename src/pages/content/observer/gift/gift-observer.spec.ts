@@ -56,9 +56,9 @@ describe('GiftObserver', () => {
     // Assert
     expect(dispatchSpy).toBeCalledWith({
       payload: [
-        { name: 'gift1', count: 1, sender: 'sender' },
-        { name: 'gift2', count: 2, sender: 'sender' },
         { name: 'gift1', count: 3, sender: 'sender' },
+        { name: 'gift2', count: 2, sender: 'sender' },
+        { name: 'gift1', count: 1, sender: 'sender' },
       ],
       type: 'gifts/add',
     });

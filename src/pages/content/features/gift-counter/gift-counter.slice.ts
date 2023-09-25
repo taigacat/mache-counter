@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { EventSender } from '../../../../events/event-sender';
 import { Gift } from '../../../../models/Gift';
 
 type State = {
@@ -38,6 +39,8 @@ const giftCounterSlice = createSlice({
       );
 
       state.allGifts = [...state.allGifts, ...payload];
+
+      broadcastGift(state.allGifts, payload);
     },
     /**
      * Update gifts in the state
@@ -59,9 +62,25 @@ const giftCounterSlice = createSlice({
       );
 
       state.allGifts = [...payload];
+
+      broadcastGift(state.allGifts, payload);
     },
   },
 });
+
+const broadcastGift = (all: Gift[], diff: Gift[]) => {
+  const sender = new EventSender();
+  sender.sendEvent(
+    {
+      broadcasterId: 'id', // TODO 取得できるか確認
+      broadcasterName: 'name', // 画面から取得する
+      roomId: 'roomId', // TODO URLから取得する
+      liveId: 'liveId', // 取得できるか確認
+    },
+    'gift',
+    { all, diff },
+  );
+};
 
 export const giftAction = giftCounterSlice.actions;
 

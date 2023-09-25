@@ -25,7 +25,8 @@ export class GiftObserver extends DomObserver {
   onAdd(elements: HTMLElement[]) {
     const gifts = elements
       .map((element) => this.toGift(element))
-      .filter((item) => item !== null) as Gift[];
+      .filter((item) => item !== null)
+      .reverse() as Gift[];
 
     store.dispatch(giftAction.add(gifts));
   }
