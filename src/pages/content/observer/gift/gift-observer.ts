@@ -1,3 +1,4 @@
+import send from 'send';
 import { Gift } from '../../../../models/Gift';
 import { giftAction } from '../../features/gift-counter/gift-counter.slice';
 import { store } from '../../store';
@@ -23,14 +24,7 @@ export class GiftObserver extends DomObserver {
    */
   onAdd(elements: HTMLElement[]) {
     const gifts = elements
-      .map((element) => {
-        const nameAndCount = element.querySelector('.count');
-        const sender = element.querySelector('.name');
-        if (!nameAndCount || typeof sender === 'undefined') {
-          return null;
-        }
-        return this.toGift(nameAndCount.textContent, sender?.textContent);
-      })
+      .map((element) => this.toGift(element))
       .filter((item) => item !== null) as Gift[];
 
     store.dispatch(giftAction.add(gifts));
@@ -38,23 +32,29 @@ export class GiftObserver extends DomObserver {
 
   /**
    * Split gift text into name and count.
-   * @param text gift text to split
-   * @param sender gift sender
+   * @param element gift element
    */
   toGift(
-    text: string | undefined | null,
-    sender: string | undefined | null,
+    element: Element,
   ): { name: string; count: number; sender: string } | null {
-    if (!text || !sender) {
+    const giftCountElement = element.querySelector('.count');
+    const senderElement = element.querySelector('.name');
+    if (!giftCountElement || !senderElement) {
       return null;
     }
 
-    const name = text.split('×')[0].trim();
-    const count = parseInt(text.split('×')[1]?.trim() ?? '0');
-    if (name && count) {
-      return { name, count, sender };
-    } else {
+    const giftCount = giftCountElement.textContent;
+    const sender = senderElement.textContent;
+    if (!giftCount || !sender) {
       return null;
     }
+
+    const name = giftCount.split('×')[0].trim();
+    const count = parseInt(giftCount.split('×')[1]?.trim() ?? '0');
+    if (!name || !count || !sender) {
+      return null;
+    }
+
+    return { name, count, sender };
   }
 }

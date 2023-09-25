@@ -108,10 +108,15 @@ describe('GiftObserver', () => {
 
   it('should split gift text', () => {
     // Arrange
-    const text = 'gift1 × 1';
+    document.body.innerHTML = `
+        <div class="list-item">
+                <div class="name">sender</div>
+                <div class="count">gift1 × 1</div>
+        </div>`;
+    const element = document.querySelector('.list-item')!;
 
     // Act
-    const result = giftObserver.toGift(text, 'sender');
+    const result = giftObserver.toGift(element);
 
     // Assert
     expect(result).toEqual({ name: 'gift1', count: 1, sender: 'sender' });
@@ -119,10 +124,15 @@ describe('GiftObserver', () => {
 
   it('should be null when the count is 0', () => {
     // Arrange
-    const text = 'gift1 × 0';
+    document.body.innerHTML = `
+        <div class="list-item">
+                <div class="name">sender</div>
+                <div class="count">gift1 × 0</div>
+        </div>`;
+    const element = document.querySelector('.list-item')!;
 
     // Act
-    const result = giftObserver.toGift(text, 'sender');
+    const result = giftObserver.toGift(element);
 
     // Assert
     expect(result).toBeNull();
@@ -130,10 +140,15 @@ describe('GiftObserver', () => {
 
   it('should not be thrown error when the name is not found', () => {
     // Arrange
-    const text = '× 1';
+    document.body.innerHTML = `
+        <div class="list-item">
+                <div class="name">sender</div>
+                <div class="count">× 1</div>
+        </div>`;
+    const element = document.querySelector('.list-item')!;
 
     // Act
-    const result = giftObserver.toGift(text, 'sender');
+    const result = giftObserver.toGift(element);
 
     // Assert
     expect(result).toBeNull();
@@ -141,10 +156,15 @@ describe('GiftObserver', () => {
 
   it('should not be thrown error when the count is not found', () => {
     // Arrange
-    const text = 'gift1';
+    document.body.innerHTML = `
+        <div class="list-item">
+                <div class="name">sender</div>
+                <div class="count">gift1</div>
+        </div>`;
+    const element = document.querySelector('.list-item')!;
 
     // Act
-    const result = giftObserver.toGift(text, 'sender');
+    const result = giftObserver.toGift(element);
 
     // Assert
     expect(result).toBeNull();
@@ -152,10 +172,15 @@ describe('GiftObserver', () => {
 
   it('should not be thrown error when the count is not number', () => {
     // Arrange
-    const text = 'gift1 × a';
+    document.body.innerHTML = `
+        <div class="list-item">
+                <div class="name">sender</div>
+                <div class="count">gift1 × a</div>
+        </div>`;
+    const element = document.querySelector('.list-item')!;
 
     // Act
-    const result = giftObserver.toGift(text, 'sender');
+    const result = giftObserver.toGift(element);
 
     // Assert
     expect(result).toBeNull();
@@ -163,10 +188,15 @@ describe('GiftObserver', () => {
 
   it('should not be thrown error when the text is empty', () => {
     // Arrange
-    const text = '';
+    document.body.innerHTML = `
+        <div class="list-item">
+                <div class="name">sender</div>
+                <div class="count">×</div>
+        </div>`;
+    const element = document.querySelector('.list-item')!;
 
     // Act
-    const result = giftObserver.toGift(text, 'sender');
+    const result = giftObserver.toGift(element);
 
     // Assert
     expect(result).toBeNull();
@@ -174,34 +204,31 @@ describe('GiftObserver', () => {
 
   it('should not be thrown error when the text is "×"', () => {
     // Arrange
-    const text = '×';
+    document.body.innerHTML = `
+        <div class="list-item">
+                <div class="name">sender</div>
+                <div class="count">gift1 × a</div>
+        </div>`;
+    const element = document.querySelector('.list-item')!;
 
     // Act
-    const result = giftObserver.toGift(text, 'sender');
+    const result = giftObserver.toGift(element);
 
     // Assert
     expect(result).toBeNull();
   });
 
-  it('should not be thrown error when the text is undefined', () => {
+  it('should not be thrown error when the sender is empty', () => {
     // Arrange
-    const text = undefined;
-    const sender = undefined;
+    document.body.innerHTML = `
+        <div class="list-item">
+                <div class="name"></div>
+                <div class="count">gift1 × a</div>
+        </div>`;
+    const element = document.querySelector('.list-item')!;
 
     // Act
-    const result = giftObserver.toGift(text, sender);
-
-    // Assert
-    expect(result).toBeNull();
-  });
-
-  it('should not be thrown error when the text is null', () => {
-    // Arrange
-    const text = null;
-    const sender = null;
-
-    // Act
-    const result = giftObserver.toGift(text, sender);
+    const result = giftObserver.toGift(element);
 
     // Assert
     expect(result).toBeNull();
