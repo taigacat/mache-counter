@@ -6,7 +6,7 @@
   "icons": {
     "128": "icon.png"
   },
-  "permissions": [
+  "host_permissions": [
     "https://mache-viewer.4mo.co/*",
     "https://mache-viewer-dev.4mo.co/*"
   ],
