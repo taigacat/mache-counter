@@ -46,7 +46,10 @@ const giftCounterSlice = createSlice({
         ...payload.map((gift, index) => ({ ...gift, index: count + index })),
       ];
 
-      broadcastGift(state.allGifts, payload);
+      broadcastGift(
+        state.allGifts,
+        payload.map((gift, index) => ({ ...gift, index: count + index })),
+      );
     },
     /**
      * Update gifts in the state
@@ -69,7 +72,10 @@ const giftCounterSlice = createSlice({
 
       state.allGifts = [...payload.map((gift, index) => ({ ...gift, index }))];
 
-      broadcastGift(state.allGifts, payload);
+      broadcastGift(
+        state.allGifts,
+        payload.map((gift, index) => ({ ...gift, index })),
+      );
     },
   },
 });
