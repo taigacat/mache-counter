@@ -15,9 +15,7 @@ module.exports = {
     '\\.(css|scss|less)$': '<rootDir>/node_modules/jest-css-modules',
     '^src/(.+)': '<rootDir>/src/$1',
   },
-  "setupFilesAfterEnv": [
-    "<rootDir>/jest.setup.ts"
-  ],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   snapshotResolver: '<rootDir>/jest-snapshot-resolver.js',
   collectCoverage: true,
   collectCoverageFrom: [

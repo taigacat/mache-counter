@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { EventSender } from '../../../../events/event-sender';
-import { Gift } from '../../../../models/Gift';
+import { ChromeExtensionMessage } from '../../../../events/chrome-extension-message';
+import { Gift, IndexedGift } from '../../../../models/Gift';
 
 type State = {
   gifts: { [key: string]: number };
-  allGifts: Gift[];
+  allGifts: IndexedGift[];
+  sent?: boolean;
 };
 
 const initialState: State = {
   gifts: {},
   allGifts: [],
+  sent: false,
 };
 
 const giftCounterSlice = createSlice({
@@ -38,7 +40,11 @@ const giftCounterSlice = createSlice({
         state.gifts,
       );
 
-      state.allGifts = [...state.allGifts, ...payload];
+      const count = state.allGifts.length;
+      state.allGifts = [
+        ...state.allGifts,
+        ...payload.map((gift, index) => ({ ...gift, index: count + index })),
+      ];
 
       broadcastGift(state.allGifts, payload);
     },
@@ -61,7 +67,7 @@ const giftCounterSlice = createSlice({
         {},
       );
 
-      state.allGifts = [...payload];
+      state.allGifts = [...payload.map((gift, index) => ({ ...gift, index }))];
 
       broadcastGift(state.allGifts, payload);
     },
@@ -69,17 +75,19 @@ const giftCounterSlice = createSlice({
 });
 
 const broadcastGift = (all: Gift[], diff: Gift[]) => {
-  const sender = new EventSender();
-  sender.sendEvent(
-    {
+  ChromeExtensionMessage.sendEvent({
+    metadata: {
       broadcasterId: 'id', // TODO 取得できるか確認
       broadcasterName: 'name', // 画面から取得する
       roomId: 'roomId', // TODO URLから取得する
       liveId: 'liveId', // 取得できるか確認
     },
-    'gift',
-    { all, diff },
-  );
+    event: 'gift',
+    data: {
+      all,
+      diff,
+    },
+  });
 };
 
 export const giftAction = giftCounterSlice.actions;

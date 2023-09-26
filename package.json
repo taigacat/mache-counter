@@ -12,8 +12,9 @@
     "test:snapshot": "jest --config jest.config.snap.js --passWithNoTests",
     "test:snapshot:update": "jest --config jest.config.snap.js --passWithNoTests --updateSnapshot",
     "test:ci": "jest --ci --passWithNoTests && jest --config jest.config.snap.js --ci --passWithNoTests",
-    "build": "webpack",
-    "watch": "webpack --watch"
+    "build": "NODE_ENV=prd webpack",
+    "build:dev": "NODE_ENV=dev webpack",
+    "watch": "NODE_ENV=local webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.2",
     "@testing-library/react": "^14.0.0",
+    "@types/chrome": "^0.0.246",
     "@types/jest": "^29.5.4",
     "@types/node": "^20.5.6",
     "@types/react": "^18.2.21",
@@ -48,6 +50,7 @@
     "babel-loader": "^9.1.3",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.28.0",

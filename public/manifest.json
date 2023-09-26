@@ -6,11 +6,18 @@
   "icons": {
     "128": "icon.png"
   },
+  "permissions": [
+    "https://mache-viewer.4mo.co/*",
+    "https://mache-viewer-dev.4mo.co/*"
+  ],
   "content_scripts": [
     {
       "matches": ["https://www.mache.tv/Room/live/*"],
       "js": ["content.js"],
       "run_at": "document_end"
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }

@@ -7,3 +7,10 @@ export interface Gift {
   count: number;
   sender: string;
 }
+
+/**
+ * Represents an indexed gift.
+ */
+export interface IndexedGift extends Gift {
+  index: number;
+}

@@ -30,7 +30,12 @@ describe('GiftTable', () => {
       gifts: {
         [gift.name]: 4,
       },
-      allGifts: [gift],
+      allGifts: [
+        {
+          ...gift,
+          index: 0,
+        },
+      ],
     });
 
     // Act

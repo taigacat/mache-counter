@@ -6,6 +6,13 @@ describe('GiftObserver', () => {
 
   beforeEach(() => {
     giftObserver = new GiftObserver();
+
+    // @ts-ignore
+    global.chrome = {
+      runtime: {
+        sendMessage: () => new Promise(() => {}),
+      } as any,
+    };
   });
 
   it('should be defined', () => {

@@ -1,6 +1,15 @@
 import giftCounterSlice, { giftAction } from './gift-counter.slice';
 
 describe('GiftCounterSlice', () => {
+  beforeEach(() => {
+    // @ts-ignore
+    global.chrome = {
+      runtime: {
+        sendMessage: () => new Promise(() => {}),
+      } as any,
+    };
+  });
+
   it('add gifts when no gifts exist', () => {
     // Arrange
     const initialState = {
