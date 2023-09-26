@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(
           `${baseUrl}/broadcasters/${message.metadata.broadcasterId}/gifts`,
           {
             method: 'POST',
-            body: JSON.stringify(message.data),
+            body: JSON.stringify(message),
           },
         ).then((response) => {
           if (200 <= response.status && response.status < 300) {
