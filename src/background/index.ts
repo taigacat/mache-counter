@@ -14,9 +14,14 @@ chrome.runtime.onMessage.addListener(
     try {
       switch (message.event) {
         case 'gift':
-          fetch(`${baseUrl}/broadcasters/${message.metadata.liveId}/gifts`, {
+          fetch(`${baseUrl}/gifts`, {
             method: 'POST',
-            body: JSON.stringify(message),
+            body: JSON.stringify({
+              broadcaster_id: message.metadata.userId,
+              broadcaster_name: message.metadata.userName,
+              stream_id: message.metadata.liveId,
+              gifts: message.data,
+            }),
           })
             .then((response) => {
               if (200 <= response.status && response.status < 300) {
