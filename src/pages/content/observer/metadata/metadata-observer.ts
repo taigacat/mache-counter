@@ -13,8 +13,6 @@ export class MetadataObserver extends DomObserver {
   }
 
   onChange(element: HTMLElement) {
-    console.log(element);
-
     const { id, name } = this.getBroadcaster(element) ?? {};
     const streamId = this.getStreamId();
     console.log({ id, name, streamId });
