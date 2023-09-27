@@ -1,6 +1,8 @@
-import send from 'send';
 import { Gift } from '../../../../models/Gift';
-import { giftAction } from '../../features/gift-counter/gift-counter.slice';
+import {
+  giftAction,
+  sendGiftAsync,
+} from '../../features/gift-counter/gift-counter.slice';
 import { store } from '../../store';
 import { DomObserver } from '../dom-observer';
 
@@ -29,6 +31,7 @@ export class GiftObserver extends DomObserver {
       .reverse() as Gift[];
 
     store.dispatch(giftAction.add(gifts));
+    store.dispatch(sendGiftAsync(gifts));
   }
 
   /**

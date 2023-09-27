@@ -1,14 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ChromeExtensionMessage } from '../../../../events/chrome-extension-message';
 import { Gift, IndexedGift } from '../../../../models/Gift';
+import { RootState } from '../../rootState.type';
 
-type State = {
+export type GiftState = {
   gifts: { [key: string]: number };
   allGifts: IndexedGift[];
   sent?: boolean;
 };
 
-const initialState: State = {
+const initialState: GiftState = {
   gifts: {},
   allGifts: [],
   sent: false,
@@ -41,15 +42,11 @@ const giftCounterSlice = createSlice({
       );
 
       const count = state.allGifts.length;
-      state.allGifts = [
-        ...state.allGifts,
-        ...payload.map((gift, index) => ({ ...gift, index: count + index })),
-      ];
-
-      broadcastGift(
-        state.allGifts,
-        payload.map((gift, index) => ({ ...gift, index: count + index })),
-      );
+      const indexedGifts = payload.map((gift, index) => ({
+        ...gift,
+        index: count + index,
+      }));
+      state.allGifts = [...state.allGifts, ...indexedGifts];
     },
     /**
      * Update gifts in the state
@@ -70,31 +67,42 @@ const giftCounterSlice = createSlice({
         {},
       );
 
-      state.allGifts = [...payload.map((gift, index) => ({ ...gift, index }))];
-
-      broadcastGift(
-        state.allGifts,
-        payload.map((gift, index) => ({ ...gift, index })),
-      );
+      const indexedGifts = payload.map((gift, index) => ({ ...gift, index }));
+      state.allGifts = [...indexedGifts];
+    },
+    /**
+     * Set sent flag to true
+     */
+    sent(state, action) {
+      state.sent = true;
     },
   },
 });
 
-const broadcastGift = (all: Gift[], diff: Gift[]) => {
-  ChromeExtensionMessage.sendEvent({
-    metadata: {
-      broadcasterId: 'id', // TODO 取得できるか確認
-      broadcasterName: 'name', // 画面から取得する
-      roomId: 'roomId', // TODO URLから取得する
-      liveId: 'liveId', // 取得できるか確認
-    },
-    event: 'gift',
-    data: {
-      all,
-      diff,
-    },
-  });
-};
+export const sendGiftAsync = createAsyncThunk(
+  'gifts/sendGiftAsync',
+  async (diff: Gift[], thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const metadata = state.app.metadata;
+    const { allGifts, sent } = state.gift;
+    ChromeExtensionMessage.sendEvent({
+      metadata,
+      event: 'gift',
+      data: {
+        ...(sent ? {} : { all: allGifts }),
+        diff: diff.map((gift, index) => ({
+          ...gift,
+          index: allGifts.length - diff.length + index,
+        })),
+      },
+    }).then((response) => {
+      console.log(response);
+      if (response.status === 'success') {
+        thunkAPI.dispatch(giftAction.sent(undefined));
+      }
+    });
+  },
+);
 
 export const giftAction = giftCounterSlice.actions;
 

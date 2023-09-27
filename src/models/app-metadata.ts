@@ -2,8 +2,7 @@
  * Mache.tv metadata
  */
 export interface AppMetadata {
-  broadcasterId: string;
-  broadcasterName: string;
-  roomId: string;
+  userId: string;
+  userName: string;
   liveId: string;
 }

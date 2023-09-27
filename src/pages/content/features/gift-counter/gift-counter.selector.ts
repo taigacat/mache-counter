@@ -1,7 +1,10 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../../rootState.type';
 
-export const giftCounterSelector = (state: RootState) => state.gifts;
+const giftSelector = (state: RootState) => state.gift;
+
+export const giftCounterSelector = (state: RootState) =>
+  giftSelector(state).gifts;
 
 /**
  * Selector for gift summery.
