@@ -85,6 +85,9 @@ export const sendGiftAsync = createAsyncThunk(
     const state = thunkAPI.getState() as RootState;
     const metadata = state.app.metadata;
     const { allGifts, sent } = state.gift;
+    if (!diff || diff.length === 0) {
+      return;
+    }
     ChromeExtensionMessage.sendEvent({
       metadata,
       event: 'gift',

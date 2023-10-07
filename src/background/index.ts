@@ -9,17 +9,17 @@ chrome.runtime.onMessage.addListener(
       });
     }
 
-    const baseUrl = process.env.API_BASE_URL || 'https://example.com/api/v1';
+    const baseUrl = process.env.API_BASE_URL || 'https://example.com';
 
     try {
       switch (message.event) {
         case 'gift':
-          fetch(`${baseUrl}/gifts`, {
+          fetch(`${baseUrl}/v1/gifts`, {
             method: 'POST',
             body: JSON.stringify({
-              broadcaster_id: message.metadata.userId,
-              broadcaster_name: message.metadata.userName,
-              stream_id: message.metadata.liveId,
+              broadcasterId: message.metadata.userId,
+              broadcasterName: message.metadata.userName,
+              streamId: message.metadata.liveId,
               gifts: message.data,
             }),
           })
