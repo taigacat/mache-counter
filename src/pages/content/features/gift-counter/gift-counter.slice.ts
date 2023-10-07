@@ -1,12 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { Gift } from '../../../../models/Gift';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { ChromeExtensionMessage } from '../../../../events/chrome-extension-message';
+import { Gift, IndexedGift } from '../../../../models/Gift';
+import { RootState } from '../../rootState.type';
 
-type State = {
-  gifts: { [key: string]: Gift };
+export type GiftState = {
+  gifts: { [key: string]: number };
+  allGifts: IndexedGift[];
+  sent?: boolean;
 };
 
-const initialState: State = {
+const initialState: GiftState = {
   gifts: {},
+  allGifts: [],
+  sent: false,
 };
 
 const giftCounterSlice = createSlice({
@@ -25,20 +31,22 @@ const giftCounterSlice = createSlice({
       }
 
       state.gifts = payload.reduce(
-        (prev: { [name: string]: Gift }, gift: Gift) => {
+        (prev: { [name: string]: number }, gift: Gift) => {
           const current_gift = prev[gift.name];
           return {
             ...prev,
-            [gift.name]: {
-              ...gift,
-              count: current_gift
-                ? current_gift.count + gift.count
-                : gift.count,
-            },
+            [gift.name]: current_gift ? current_gift + gift.count : gift.count,
           };
         },
         state.gifts,
       );
+
+      const count = state.allGifts.length;
+      const indexedGifts = payload.map((gift, index) => ({
+        ...gift,
+        index: count + index,
+      }));
+      state.allGifts = [...state.allGifts, ...indexedGifts];
     },
     /**
      * Update gifts in the state
@@ -49,23 +57,55 @@ const giftCounterSlice = createSlice({
     update(state, action) {
       const payload = (action.payload || []) as Gift[];
       state.gifts = payload.reduce(
-        (prev: { [name: string]: Gift }, gift: Gift) => {
+        (prev: { [name: string]: number }, gift: Gift) => {
           const current_gift = prev[gift.name];
           return {
             ...prev,
-            [gift.name]: {
-              ...gift,
-              count: current_gift
-                ? current_gift.count + gift.count
-                : gift.count,
-            },
+            [gift.name]: current_gift ? current_gift + gift.count : gift.count,
           };
         },
         {},
       );
+
+      const indexedGifts = payload.map((gift, index) => ({ ...gift, index }));
+      state.allGifts = [...indexedGifts];
+    },
+    /**
+     * Set sent flag to true
+     */
+    sent(state, action) {
+      state.sent = true;
     },
   },
 });
+
+export const sendGiftAsync = createAsyncThunk(
+  'gifts/sendGiftAsync',
+  async (diff: Gift[], thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const metadata = state.app.metadata;
+    const { allGifts, sent } = state.gift;
+    if (!diff || diff.length === 0) {
+      return;
+    }
+    ChromeExtensionMessage.sendEvent({
+      metadata,
+      event: 'gift',
+      data: {
+        ...(sent ? {} : { all: allGifts }),
+        diff: diff.map((gift, index) => ({
+          ...gift,
+          index: allGifts.length - diff.length + index,
+        })),
+      },
+    }).then((response) => {
+      console.log(response);
+      if (response.status === 'success') {
+        thunkAPI.dispatch(giftAction.sent(undefined));
+      }
+    });
+  },
+);
 
 export const giftAction = giftCounterSlice.actions;
 

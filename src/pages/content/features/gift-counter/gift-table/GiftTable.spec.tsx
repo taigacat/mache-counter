@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { RootState } from '../../../rootState.type';
 import { store } from '../../../store';
 import { GiftTable } from './GiftTable';
 
@@ -24,12 +25,21 @@ describe('GiftTable', () => {
     const gift = {
       name: 'Test Gift 1',
       count: 4,
+      sender: 'Test Sender',
     };
     jest.spyOn(store, 'getState').mockReturnValue({
-      gifts: {
-        [gift.name]: gift,
+      gift: {
+        gifts: {
+          [gift.name]: 4,
+        },
+        allGifts: [
+          {
+            ...gift,
+            index: 0,
+          },
+        ],
       },
-    });
+    } as RootState);
 
     // Act
     const { container } = render(

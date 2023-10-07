@@ -1,5 +1,8 @@
 import { Gift } from '../../../../models/Gift';
-import { giftAction } from '../../features/gift-counter/gift-counter.slice';
+import {
+  giftAction,
+  sendGiftAsync,
+} from '../../features/gift-counter/gift-counter.slice';
 import { store } from '../../store';
 import { DomObserver } from '../dom-observer';
 
@@ -23,35 +26,39 @@ export class GiftObserver extends DomObserver {
    */
   onAdd(elements: HTMLElement[]) {
     const gifts = elements
-      .map(element => {
-        const nameAndCount = element.querySelector('.count');
-        if (!nameAndCount) {
-          return null;
-        }
-        return this.splitGiftText(nameAndCount.textContent);
-      })
-      .filter((item) => item !== null) as Gift[];
+      .map((element) => this.toGift(element))
+      .filter((item) => item !== null)
+      .reverse() as Gift[];
 
     store.dispatch(giftAction.add(gifts));
+    store.dispatch(sendGiftAsync(gifts));
   }
 
   /**
    * Split gift text into name and count.
-   * @param text gift text to split
+   * @param element gift element
    */
-  splitGiftText(
-    text: string | undefined | null,
-  ): { name: string; count: number } | null {
-    if (!text) {
+  toGift(
+    element: Element,
+  ): { name: string; count: number; sender: string } | null {
+    const giftCountElement = element.querySelector('.count');
+    const senderElement = element.querySelector('.name');
+    if (!giftCountElement || !senderElement) {
       return null;
     }
 
-    const name = text.split('×')[0].trim();
-    const count = parseInt(text.split('×')[1]?.trim() ?? '0');
-    if (name && count) {
-      return { name, count };
-    } else {
+    const giftCount = giftCountElement.textContent;
+    const sender = senderElement.textContent;
+    if (!giftCount || !sender) {
       return null;
     }
+
+    const name = giftCount.split('×')[0].trim();
+    const count = parseInt(giftCount.split('×')[1]?.trim() ?? '0');
+    if (!name || !count || !sender) {
+      return null;
+    }
+
+    return { name, count, sender };
   }
 }

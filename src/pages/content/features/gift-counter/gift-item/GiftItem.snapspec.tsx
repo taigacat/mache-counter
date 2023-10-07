@@ -7,6 +7,7 @@ describe('GiftItem snapshot', () => {
     const gift = {
       name: 'Test Gift',
       count: 4,
+      sender: 'Test Sender',
     };
 
     // Act

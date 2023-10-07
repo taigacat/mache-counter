@@ -1,7 +1,10 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../../rootState.type';
 
-export const giftCounterSelector = (state: RootState) => state.gifts;
+const giftSelector = (state: RootState) => state.gift;
+
+export const giftCounterSelector = (state: RootState) =>
+  giftSelector(state).gifts;
 
 /**
  * Selector for gift summery.
@@ -12,7 +15,10 @@ export const giftSummerySelector = createSelector(
   giftCounterSelector,
   (gifts) => {
     return Object.entries(gifts)
-      .sort(([, giftA], [, giftB]) => giftB.count - giftA.count)
-      .map(([_, gift]) => gift);
+      .sort(([, giftACount], [, giftBCount]) => giftBCount - giftACount)
+      .map(([name, count]) => ({
+        name,
+        count,
+      }));
   },
 );
