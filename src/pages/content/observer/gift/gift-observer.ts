@@ -40,7 +40,7 @@ export class GiftObserver extends DomObserver {
    */
   toGift(
     element: Element,
-  ): { name: string; count: number; sender: string } | null {
+  ): { name: string; count: number; sender: string; icon?: string } | null {
     const giftCountElement = element.querySelector('.count');
     const senderElement = element.querySelector('.name');
     if (!giftCountElement || !senderElement) {
@@ -59,6 +59,9 @@ export class GiftObserver extends DomObserver {
       return null;
     }
 
-    return { name, count, sender };
+    const iconElement = element.querySelector('.icon');
+    const iconUrl = iconElement?.querySelector('img')?.getAttribute('src');
+
+    return { name, count, sender, icon: iconUrl ?? undefined };
   }
 }
